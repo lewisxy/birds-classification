@@ -1,6 +1,7 @@
 # Birds Classification
 
-## [Video demo][video] [notebook download][notebook]
+## [Video demo][video]
+## [Notebook download][notebook]
 
 ## Problem description
 The goal of this project is to classify different species of birds as accurately as possible. There is a competition hosted on [Kaggle][kaggle] that provides dataset for training and testing as well as the utility to measure accuracy.
