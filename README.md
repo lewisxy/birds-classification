@@ -16,10 +16,12 @@ The data provided consists of colored images of birds that are not the same size
 
 To provide more diverse data, several data augmentation techniques are used, including random horizontal flip, random crop, and color jittering. The data augmentation techniques that are not used due to limited time are random rotation and normalization.
 
+![sample images after training transform][transform]
+
 Since the true labels of test data are hidden, we split 10% randomly off from the provided training set as a validation set. This allows us to better control the training process as we can evaluate the accuracy on validation set after each epoch to gain insight about the test accuracy.
 
 ### The network architecture
-There are many successful neural network architectures for image classifications. In most cases, they consist of many blocks, and each block consists of convolution layers, max pooling layers, and normalization layers. In the end, the output of the last block is flattened, and a fully connected layer is used to map it to the final classification result, a vector of size n, representing the score for each class.
+There are many successful neural network architectures for image classifications. In most cases, they consist of many blocks, and each block consists of convolution layers, max pooling layers, and normalization layers. In the end, the output of the last block is flattened, and a fully connected layer is used to map it to the final classification result, a vector of size *n*, representing the score for each class.
 
 In a fully trained network, layers before the final linear layers behave like feature extractors that progressively extract higher levels of features. Many of these features are independent of the classification task. This enables transfer learning, a technique of reusing part of weights of a trained network for different tasks. Transfer learning also has the benefit of providing better accuracy, as those weights could be trained from a much broader dataset than the task at hand. In general, weights from the previous layers of the existing network can be frozen so that their gradient won’t change during transfer learning. This could result in faster training time but worse accuracy. In this project, we did not freeze the weights. We initialized resnet and efficientnet using pretrained weights, reset their final fully connected layer and train them on this dataset to classify birds.
 
@@ -42,25 +44,28 @@ One thing I would like to try is ensemble models.
 
 ## Reference
 
-TIMM
-https://github.com/huggingface/pytorch-image-models
+[pretrained models (TIMM)][TIMM]
 
-Transfer Learning
-https://colab.research.google.com/drive/1EBz4feoaUvz-o_yeMI27LEQBkvrXNc_4?usp=sharing
-https://colab.research.google.com/drive/1kHo8VT-onDxbtS3FM77VImG35h_K_Lav?usp=sharing
+[Transfer][transfer1] [Learning][transfer2]
 
-SGDR: Stochastic Gradient Descent with Warm Restarts
-https://arxiv.org/abs/1608.03983
+[SGDR: Stochastic Gradient Descent with Warm Restarts][cosine]
 
-Deep Residual Learning for Image Recognition
-https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf
+[Deep Residual Learning for Image Recognition][resnet]
 
-EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks
-https://proceedings.mlr.press/v97/tan19a/tan19a.pdf
+[EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks][efficientnet]
 
-Model Ensemble
-https://ensemble-pytorch.readthedocs.io/en/latest/introduction.html
-https://arxiv.org/pdf/2104.02395.pdf
-https://towardsdatascience.com/ensembles-the-almost-free-lunch-in-machine-learning-91af7ebe5090
+[model][ensemble1] [ensemble][ensemble2] [resources][ensemble3]
+
+
+[transform]: [imgs/transform.png]
 
 [kaggle]: https://www.kaggle.com/t/dd340e27d2b745a7bebe35799c0452ba
+[TIMM]: https://github.com/huggingface/pytorch-image-models
+[transfer1]: https://colab.research.google.com/drive/1EBz4feoaUvz-o_yeMI27LEQBkvrXNc_4?usp=sharing
+[transfer2]: https://colab.research.google.com/drive/1kHo8VT-onDxbtS3FM77VImG35h_K_Lav?usp=sharing
+[cosine]: https://arxiv.org/abs/1608.03983
+[resnet]: https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf
+[efficientnet]: https://proceedings.mlr.press/v97/tan19a/tan19a.pdf
+[ensemble1]: https://ensemble-pytorch.readthedocs.io/en/latest/introduction.html
+[ensemble2]: https://arxiv.org/pdf/2104.02395.pdf
+[ensemble3]: https://towardsdatascience.com/ensembles-the-almost-free-lunch-in-machine-learning-91af7ebe5090
