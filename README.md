@@ -1,4 +1,4 @@
-# Classify different species of birds with deep neural networks
+# Classify Species of Birds
 
 ## Problem description
 The goal of this project is to classify different species of birds as accurately as possible. There is a competition hosted on [Kaggle][kaggle] that provides dataset for training and testing as well as the utility to measure accuracy.
@@ -6,13 +6,13 @@ The goal of this project is to classify different species of birds as accurately
 ### Dataset
 The dataset provided consists of colored images of birds. The training set consists of over 38,000 images with 555 different types of birds, and the test set consists of 10,000 images. The true label of the test set is not provided.
 
-TODO: dataset overview plots
-
 ## The approach
 The best tool for image classification tasks we know of is deep neural networks. More specifically, convolution neural networks (CNN) are particularly good at image classification due to the fact that pixels closed by are more correlated than pixels far apart. So the high level approach is to train a deep neural network with primarily convolution layers to classify birds.
 
 ### Data cleaning
-The data provided consists of colored images of birds that are not the same size. For consistency, the image is cropped to a fixed size before feeding into the neural network. The size of the image affects the training speed and accuracy. We found that larger image size provides more accurate classification but slows down the training and evaluation process. 128x128, 224x224, and 256x256 are tried during this project.
+The data provided consists of colored images of birds that are not the same size. For consistency, the image is cropped to a fixed size before feeding into the neural network. The size of the image affects the training speed and accuracy. We found that larger image size provides more accurate classification but slows down the training and evaluation process. `128x128`, `224x224`, and `256x256` are tried during this project.
+
+![image sizes distribution][sizes]
 
 To provide more diverse data, several data augmentation techniques are used, including random horizontal flip, random crop, and color jittering. The data augmentation techniques that are not used due to limited time are random rotation and normalization.
 
@@ -28,7 +28,9 @@ In a fully trained network, layers before the final linear layers behave like fe
 There are no particular technical reasons for choosing these architectures. We choose them because pretrained weights of these models are easily accessible.
 
 ### Training
-To train the model, we used the stochastic gradient descent optimizer (SDG) from pytorch. Based on previous experiences with neural networks, we found that a LR of 0.01, momentum of 0.9 and weight decay of 0.001 a good starting point. However, the model begin to plateau (i.e., the losses did not decrease across epochs) as we reached 14 epochs. To improve the model, we used the Cosine annealing learning rate scheduler to vary learning rate across the training process. This enables us to train the model longer before it plateaus and therefore getting a better accuracy.
+To train the model, we used the stochastic gradient descent optimizer (SDG) from pytorch. Based on previous experiences with neural networks, we found that a LR of 0.01, momentum of 0.9 and weight decay of 0.001 a good starting point. However, the model begin to plateau (i.e., the losses did not decrease across epochs) as we reached 14 epochs. To improve the model, we used the [cosine annealing][cosine] learning rate scheduler to vary learning rate across the training process. This [scheduler][cosineLR] also reset itself after certain epochs This enables us to train the model longer before it plateaus and therefore getting a better accuracy.
+
+![cosine annealing learning schedule][lr_schedule]
 
 ## Results
 
@@ -57,13 +59,16 @@ One thing I would like to try is ensemble models.
 [model][ensemble1] [ensemble][ensemble2] [resources][ensemble3]
 
 
-[transform]: [imgs/transform.png]
+[sizes]: imgs/size_dist.png
+[transform]: imgs/transform.png
+[lr_schedule]: imgs/lr_schedule.png
 
 [kaggle]: https://www.kaggle.com/t/dd340e27d2b745a7bebe35799c0452ba
 [TIMM]: https://github.com/huggingface/pytorch-image-models
 [transfer1]: https://colab.research.google.com/drive/1EBz4feoaUvz-o_yeMI27LEQBkvrXNc_4?usp=sharing
 [transfer2]: https://colab.research.google.com/drive/1kHo8VT-onDxbtS3FM77VImG35h_K_Lav?usp=sharing
 [cosine]: https://arxiv.org/abs/1608.03983
+[cosineLR]: https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.CosineAnnealingWarmRestarts.html
 [resnet]: https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf
 [efficientnet]: https://proceedings.mlr.press/v97/tan19a/tan19a.pdf
 [ensemble1]: https://ensemble-pytorch.readthedocs.io/en/latest/introduction.html
